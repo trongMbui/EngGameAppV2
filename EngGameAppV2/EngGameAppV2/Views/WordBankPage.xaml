@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:vm="clr-namespace:EngGameAppV2.ViewModels"
+             xmlns:m="clr-namespace:EngGameAppV2.Models"
+             x:Name="WordListPage"
+             x:Class="EngGameAppV2.Views.WordBankPage"
+             Title="Word Bank"
+             BackgroundColor="{StaticResource Color01}">
+    <ContentPage.BindingContext>
+        <vm:WordBankViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout
+            >
+            <!--<Entry
+                Text="{Binding Word.ActualWord, Mode=TwoWay}"
+                BackgroundColor="White"
+                Placeholder="Write"
+                />
+            <Entry
+                Text="{Binding Word.Definition, Mode=TwoWay}"
+                BackgroundColor="White"
+                Placeholder="Write"
+                />-->
+            <Button
+                Text="Add"
+                Margin="40,20,40,0"
+                Padding="20"
+                Command="{Binding AddNewWordCommand}" 
+                />
+
+            <RefreshView x:DataType="vm:WordBankViewModel" 
+                         Command="{Binding LoadWordCommand}"
+                         IsRefreshing="{Binding IsBusy, Mode=OneWay} " 
+                         Margin="20,40,20,0">
+                <CollectionView ItemsSource="{Binding WordList}">
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate x:DataType="m:WordModel">
+                            <ScrollView>
+                                <Frame
+                                    BorderColor="Crimson"
+                                    HeightRequest="50"
+                                    BackgroundColor="{StaticResource Color01}"
+                                    Margin="0,0,0,10"
+                                    >
+                                    <Grid>
+                                        
+                                    <StackLayout>
+
+                                        <Label
+                                            IsVisible="False"
+                                            TextColor="Black"
+                                            Text="{Binding Id}"
+                                            />
+                                        <Label
+                                            FontSize="Title"
+                                            TextColor="Black"
+                                            Text="{Binding ActualWord}"
+                                            />
+                                        <Label
+                                            FontSize="Body"
+                                            TextColor="Black"
+                                            Text="{Binding Definition}"
+                                            />
+                                    </StackLayout>
+                                    <ImageButton
+                                        BackgroundColor="{StaticResource Color01}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="End"
+                                        Source="delete.png"
+                                        Command="{Binding Path=BindingContext.RemoveCommand, Source={x:Reference WordListPage}}"
+                                        CommandParameter="{Binding .}"
+                                        />
+                                    </Grid>
+                                </Frame>
+                            </ScrollView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+            <!--<ListView ItemsSource="{Binding SentenceList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label
+                            
+                            />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Entry
+                BackgroundColor="White"
+                Placeholder="Write"
+                />
+            <ListView ItemsSource="{Binding WordList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label
+                            
+                            />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

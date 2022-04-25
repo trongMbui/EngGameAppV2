@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EngGameAppV2.ViewModels"
+             x:Class="EngGameAppV2.Views.HomePage"
+             Title="Home"
+             BackgroundColor="{StaticResource Color01}">
+    <ContentPage.BindingContext>
+        <vm:HomeViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <!--<Label Text="Homepage"
+                   TextColor="{StaticResource Color02}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                   Margin="0,100,0,0" />-->
+            <Label Text="Pick Any Game!!!"
+                   TextColor="{StaticResource Color02}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                   Margin="0,100" />
+            
+            <Button Text="Building Sentence!"
+                    TextColor="White"
+                    Command="{Binding SentenceCommand}"/>
+            <Button Text="Memory Game!"
+                    TextColor="White"
+                    Command="{Binding PairingCommand}"/>
+            <Button Text="Speaking Game!"
+                    TextColor="White"
+                    Command="{Binding PronounceCommand}"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

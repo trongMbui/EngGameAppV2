@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:EngGameAppV2.Models"
+             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+             
+             xmlns:vm="clr-namespace:EngGameAppV2.ViewModels" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="EngGameAppV2.Views.SentencePage"
+             Title="Sentence Game"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Color01}">
+    <ContentPage.BindingContext>
+        <vm:SentenceViewModel/>
+    </ContentPage.BindingContext>
+
+    
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        <toolkit:EnumToBoolConverter x:Key="IsLevelCompleteConverter">
+            <toolkit:EnumToBoolConverter.TrueValues>
+                <m:Levels>Complete</m:Levels>
+                <m:Levels>Complete</m:Levels>
+            </toolkit:EnumToBoolConverter.TrueValues>
+        </toolkit:EnumToBoolConverter>
+        <toolkit:EnumToBoolConverter x:Key="IsNotPlayingConverter">
+            <toolkit:EnumToBoolConverter.TrueValues>
+                <m:Levels>None</m:Levels>
+                <m:Levels>Complete</m:Levels>
+            </toolkit:EnumToBoolConverter.TrueValues>
+        </toolkit:EnumToBoolConverter>
+        <toolkit:EnumToBoolConverter x:Key="IsPlayingConverter">
+            <toolkit:EnumToBoolConverter.TrueValues>
+                <m:Levels>Playing</m:Levels>
+                <m:Levels>Playing</m:Levels>
+            </toolkit:EnumToBoolConverter.TrueValues>
+        </toolkit:EnumToBoolConverter>
+        <ResourceDictionary>
+            <Style x:Key="BorderFrameStyle" TargetType="Frame">
+                <Setter Property="Margin" Value="-25,0,0,0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Color01}" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="HeightRequest" Value="30" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="WidthRequest" Value="30" />
+            </Style>
+            <Style x:Key="ContentFrameStyle" TargetType="Frame">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Color01}" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="IsClippedToBounds" Value="True" />
+                <Setter Property="WidthRequest" Value="24" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    
+    
+    
+    <ContentPage.Content >
+        <Grid RowDefinitions="80,*">
+
+            <!--<lottie:AnimationView Animation="background.json"
+                              AnimationSource="AssetOrBundle"
+                              RepeatMode="Infinite"
+                              Grid.RowSpan="2"
+                              VerticalOptions="FillAndExpand"
+                              HorizontalOptions="FillAndExpand" />-->
+
+            <Grid ColumnDefinitions="*,Auto"
+                  IsVisible="{Binding State, Converter={StaticResource IsPlayingConverter}}">
+                <StackLayout BindableLayout.ItemsSource="{Binding GuessedcardModels}"
+                         HorizontalOptions="EndAndExpand"
+                         Orientation="Horizontal"
+                         VerticalOptions="End"
+                         Grid.Column="0">
+
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate >
+                            <Frame Style="{StaticResource BorderFrameStyle}">
+                                <Frame Style="{StaticResource ContentFrameStyle}"
+                                   BackgroundColor="{StaticResource Color02}">
+                                </Frame>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+
+                </StackLayout>
+
+                <Label Text="{Binding GuessedCount}"
+                   FontSize="Title"
+                   TextColor="{StaticResource Color02}"
+                   HorizontalOptions="End"
+                   VerticalOptions="End"
+                   Margin="0,0,25,0"
+                   Grid.Column="2" />
+            </Grid>
+
+            <Polygon Points="0,0 80,40 0,80"
+                 Fill="#2A9D8F"
+                 WidthRequest="80"
+                 Grid.RowSpan="2"
+                 HeightRequest="80"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 IsVisible="{Binding State, Converter={StaticResource IsNotPlayingConverter}}"
+                     >
+                <Polygon.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PlayCommand}" />
+                </Polygon.GestureRecognizers>
+            </Polygon>
+
+            <StackLayout
+                    
+                    IsVisible="{Binding State, Converter={StaticResource IsPlayingConverter}}"
+                    Grid.RowSpan="2"
+                >
+
+                <Label 
+                    FontSize="Title"
+                    Text="Enter The Correct Sentence"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand" 
+                    TextColor="{StaticResource Color02}" Margin="0,20,0,0"
+                    />
+
+
+                
+                    <CollectionView x:Name="Words"
+                                    
+                                    ItemsLayout="VerticalGrid, 4"
+                                    ItemsSource="{Binding WordList}" Margin="20,100,20,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                
+                                <Label
+                                    Margin="10"
+                                FontSize="Medium" 
+                                   Text="{Binding word}"
+                                TextColor="{StaticResource Color02}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding Path=BindingContext.WordTapped, Source={x:Reference Words}}"
+                                        CommandParameter="{Binding .}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                
+
+                <Label VerticalOptions="CenterAndExpand"  
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="Medium" 
+                   Text="{Binding WordSelected}"
+                   TextColor="{StaticResource Color02}"
+                   />
+                
+                <Button
+                Margin="20, 20"
+                Text="Enter"
+                    Command="{Binding ValidateSentenceCommand}"
+                />
+               
+                <!--<Entry
+                x:Name="SentenceInputField"
+                Text="{Binding WordSelected}"
+                Placeholder="Enter correct sentence"
+                ReturnCommand="{Binding CorrectSentenceCommand}"
+                />-->
+
+            </StackLayout>
+
+
+            
+            <Frame IsVisible="{Binding State, Converter={StaticResource IsLevelCompleteConverter}}"
+               BackgroundColor="Black"
+               CornerRadius="10"
+               Grid.RowSpan="2"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               WidthRequest="280"
+               HeightRequest="400"
+               HasShadow="False">
+                <Grid>
+                    <Label Text="Well done!"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"
+                       FontSize="Title" />
+
+                    <Label HorizontalOptions="Center" 
+                           FontSize="Large" 
+                           VerticalOptions="Center"
+                           Text="{Binding Result}" 
+                           TextColor="{StaticResource Color03}"/>
+                    
+
+                    <!--<lottie:AnimationView Animation="trophy.json"
+                                      x:Name="TrophyAnimation"
+                                      AnimationSource="AssetOrBundle"
+                                      AutoPlay="False"
+                                      VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand" />-->
+
+                    <Label Text="Play Again?"
+                       TextColor="White"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       FontSize="Medium" Margin="30,150,0,0" />
+                    
+                    <Label Text="Back Home?"
+                       TextColor="White"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       FontSize="Medium" Margin="0,150,30,0" />
+                    
+                    <Grid FlowDirection="LeftToRight">
+                        
+                    <Polygon Points="0,0 40,20 0,40"
+                         Fill="#2A9D8F"
+                         WidthRequest="50"
+                         HeightRequest="50"
+                         HorizontalOptions="Start"
+                         VerticalOptions="End" Margin="60,0,0,45">
+                        <Polygon.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PlayCommand}" />
+                        </Polygon.GestureRecognizers>
+                    </Polygon>
+
+                    <Rectangle 
+                         Fill="#2A9D8F"
+                         WidthRequest="50"
+                         HeightRequest="50"
+                         HorizontalOptions="End"
+                         VerticalOptions="End" Margin="0,0,65,50">
+                        <Rectangle.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EndCommand}" />
+                        </Rectangle.GestureRecognizers>
+                    </Rectangle>
+                    </Grid>
+
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
