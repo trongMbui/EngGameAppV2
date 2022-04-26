@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EngGameAppV2.Services
 {
-    public class WordBankStorage : IDataStore<Word>
+    public class WordBankStorage 
     {
         readonly IList<Word> wordList;
 
