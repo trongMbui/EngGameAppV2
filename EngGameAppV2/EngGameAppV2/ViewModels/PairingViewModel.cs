@@ -13,6 +13,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Linq;
 using Android.Util;
+using FreshMvvm;
 
 namespace EngGameAppV2.ViewModels
 {
@@ -31,6 +32,7 @@ namespace EngGameAppV2.ViewModels
         public Command EndCommand { get; }
         public ICommand PlayCommand { get; }
         public ICommand SelectTileCommand { get; }
+        
         public MvvmHelpers.ObservableRangeCollection<WordModel> WordList { get; } = new MvvmHelpers.ObservableRangeCollection<WordModel>();
         public MvvmHelpers.ObservableRangeCollection<CardViewModel> CardViewModels { get; } = new MvvmHelpers.ObservableRangeCollection<CardViewModel>();
         public MvvmHelpers.ObservableRangeCollection<CardViewModel> GuessedCards { get; } = new MvvmHelpers.ObservableRangeCollection<CardViewModel>();
@@ -128,7 +130,7 @@ namespace EngGameAppV2.ViewModels
             var random = new Random();
 
             int gridSize = allWords.Count;
-            var requiredWordCount = (gridSize / 2) ;
+            //var requiredWordCount = (gridSize / 2) ;
 
             var actualWords = new List<CardViewModel>(gridSize);
 

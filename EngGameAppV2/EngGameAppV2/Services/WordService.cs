@@ -11,7 +11,7 @@ namespace EngGameAppV2.Services
     public class WordService
     {
         static SQLiteAsyncConnection db;
-        static async Task init()
+        static async Task Init()
         {
             if (db != null)
                 return;
@@ -23,7 +23,7 @@ namespace EngGameAppV2.Services
 
         public static async Task AddWord(string actualWord, string definition)
         {
-            await init();
+            await Init();
             var word = new WordModel
             {
                 ActualWord = actualWord,
@@ -34,14 +34,14 @@ namespace EngGameAppV2.Services
 
         public static async Task RemoveWord(int id)
         {
-            await init();
+            await Init();
             await db.DeleteAsync<WordModel>(id);
 
         }
 
         public static async Task <IEnumerable<WordModel>>GetWord()
         {
-            await init();
+            await Init();
 
             var word = await db.Table<WordModel>().ToListAsync();
             return word;

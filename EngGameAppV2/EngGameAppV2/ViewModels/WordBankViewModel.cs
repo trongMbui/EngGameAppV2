@@ -14,7 +14,7 @@ namespace EngGameAppV2.ViewModels
 {
     public class WordBankViewModel : BaseViewModel
     {
-        public WordBankStorage wordBankStorage { get; }
+        //public WordBankStorage wordBankStorage { get; }
         public ICommand GoToHomeCommand { get; }
         public WordModel Word { get; }
         public ICommand AddNewWordCommand { get; }
